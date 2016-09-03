@@ -1,6 +1,4 @@
-# Talkdesk Challenge - Browser Telephone
-
-Proposed solution to the Talkdesk [Browser Telephone Challenge](https://github.com/talkdesk-challenges/challenges/blob/master/problems/f4_browser_phone.md).
+# Browser Telephone
 
 A real working telephone that uses [twilio](https://www.twilio.com/) services made in Javascript.
 
