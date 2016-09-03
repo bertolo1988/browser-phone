@@ -1,0 +1,132 @@
+$bp-component-height: 70px;
+$bp-component-border-radius: 4px;
+$bp-standard-margin: 5px;
+$bp-focus-blue: #6188e2;
+browser-phone-directive .browser-phone-container {
+    margin: 50px auto 50px auto;
+    padding: 30px;
+    background: #f7f7f7;
+    border-radius: 6px;
+    height: auto;
+    .row {
+        height: $bp-component-height;
+        margin-bottom: $bp-standard-margin;
+    }
+    div {
+        border-radius: $bp-component-border-radius;
+    }
+    button,
+    span {
+        height: $bp-component-height;
+        border-radius: $bp-component-border-radius;
+    }
+    span.log-container {
+        display: inline-block;
+        vertical-align: middle;
+        text-align: center;
+        background: #deded6;
+        border-style: solid;
+        border-width: 1px;
+        border-color: #ccccc6;
+    }
+    span.twitter-typeahead {
+        width: 100%;
+        margin-bottom: $bp-standard-margin;
+    }
+    span.log-container {
+        margin-bottom: $bp-standard-margin;
+    }
+    span.twitter-typeahead input {
+        border-top-right-radius: 0px !important;
+        border-bottom-right-radius: 0px !important;
+    }
+    .btn-success {
+        margin-bottom: $bp-standard-margin;
+    }
+    .browser-phone-input-div,
+    .browser-phone-contact-div,
+    .browser-phone-add-contact-div {
+        padding: 0px;
+    }
+    .browser-phone-add-contact-button {
+        width: 100%;
+        margin-left: 0px;
+        margin-right: $bp-standard-margin;
+        border-bottom-left-radius: 0px !important;
+        border-top-left-radius: 0px !important;
+        margin-top: 0px;
+        padding: 6px;
+    }
+    input.typeahead {
+        height: $bp-component-height;
+        border-radius: $bp-component-border-radius;
+        border-width: 1px;
+        width: 100%;
+        background-color: #fff;
+    }
+    .typeahead,
+    .tt-query,
+    .tt-hint {
+        padding: 8px 12px;
+        font-size: 24px;
+        line-height: 30px;
+        -webkit-border-radius: $bp-component-border-radius;
+        -moz-border-radius: $bp-component-border-radius;
+        outline: none;
+    }
+    .typeahead,
+    .tt-query,
+    .tt-hint {
+        padding: 8px 12px;
+        font-size: 24px;
+        line-height: 30px;
+        -webkit-border-radius: $bp-component-border-radius;
+        -moz-border-radius: $bp-component-border-radius;
+        outline: none;
+    }
+    .tt-menu {
+        width: 100%;
+        margin: $bp-standard-margin 0;
+        padding: 2px 0;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        border-radius: $bp-component-border-radius;
+        -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+        -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    }
+    .tt-suggestion {
+        :hover {
+            cursor: pointer;
+            color: #fff;
+            background-color: #0097cf;
+        }
+        padding: 2px 20px;
+        font-size: 16px;
+        line-height: 22px;
+        p {
+            margin: 0;
+        }
+        .tt-cursor {
+            color: #fff;
+            background-color: #0097cf;
+        }
+    }
+    .typeahead:focus {
+        border: 1.5px solid $bp-focus-blue;
+    }
+    .tt-query {
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    }
+    .tt-hint {
+        color: #999
+    }
+    strong.tt-highlight {
+        color: $bp-focus-blue;
+    }
+}

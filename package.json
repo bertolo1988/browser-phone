@@ -1,0 +1,50 @@
+{
+    "name": "challenge_tiagobertolo",
+    "version": "1.0.0",
+    "description": "browser telephone using twilio services",
+    "scripts": {
+        "sass": "gulp sass",
+        "gulp": "gulp default",
+        "lint": "jshint js/ server/",
+        "pretest": "npm run gulp && npm run lint && npm run sass",
+        "test": "mocha test --recursive",
+        "prestart": "npm run gulp && npm run sass",
+        "start": "node demo-app.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/talkdesk-challenges/challenge_tiagobertolo.git"
+    },
+    "keywords": [
+        "browser",
+        "telephone",
+        "twilio",
+        "phone"
+    ],
+    "author": "bertolo1988 <tiagobertolo@gmail.com> (https://github.com/bertolo1988)",
+    "bugs": {
+        "url": "https://github.com/talkdesk-challenges/challenge_tiagobertolo/issues"
+    },
+    "homepage": "https://github.com/talkdesk-challenges/challenge_tiagobertolo#readme",
+    "dependencies": {
+        "angular": "1.5.8",
+        "body-parser": "1.15.2",
+        "bootstrap": "3.3.7",
+        "express": "4.14.0",
+        "font-awesome": "4.6.3",
+        "jquery": "1.12.4",
+        "mongodb": "2.2.5",
+        "twilio": "2.9.1",
+        "typeahead.js": "0.11.1"
+    },
+    "devDependencies": {
+        "chromedriver": "2.22.2",
+        "gulp": "3.9.1",
+        "gulp-sass": "2.3.2",
+        "jshint": "2.9.2",
+        "mocha": "3.0.1",
+        "selenium-webdriver": "3.0.0-beta-1",
+        "should": "10.0.0",
+        "supertest": "2.0.0"
+    }
+}
