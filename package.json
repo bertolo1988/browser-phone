@@ -3,6 +3,8 @@
     "version": "1.0.0",
     "description": "browser telephone using twilio services",
     "scripts": {
+        "mongo-mac": "mkdir mongo-db; mongod --dbpath mongo-db",
+        "mongo-win": "mkdir mongo-db & \"C:/Program Files/MongoDb/Server/3.2/bin/mongod.exe\" --dbpath=mongo-db",
         "sass": "gulp sass",
         "gulp": "gulp default",
         "lint": "jshint js/ server/",

@@ -1,5 +1,6 @@
 /node_modules/
 /public/
+/mongo-db/
 config.js
 *.pem
 *.log

@@ -76,9 +76,11 @@ describe('Server tests', function() {
     describe('test contacts feature routes: /contacts and /addContact', function() {
 
         function removePhoneByName(name) {
-            database.collection('contacts').remove({ name }, function(err, doc) {
+            database.collection('contacts').remove({
+                name
+            }, function(err, doc) {
                 should.not.exist(err);
-                res.result.ok.should.be.exactly(1);
+                doc.result.ok.should.be.exactly(1);
             });
         }
 
@@ -95,13 +97,19 @@ describe('Server tests', function() {
         }
 
         it('should be able to retrieve data from /contacts', function(done) {
-            let contact = { name: 'Martucho', number: '351911722348' };
+            let contact = {
+                name: 'Martucho',
+                number: '351911722348'
+            };
             database.collection('contacts').insert(contact);
             checkForContact(contact, done);
         });
 
         it('should insert a contact and confirm in /contacts', function(done) {
-            let contact = { name: 'Lauren', number: '351911712348' };
+            let contact = {
+                name: 'Lauren',
+                number: '351911712348'
+            };
             request
                 .post('/addContact')
                 .send(contact)
