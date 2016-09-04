@@ -1,5 +1,4 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/4511df6b57e54761bdbbfee823198094)](https://www.codacy.com/app/tiagobertolo/browser-telephone?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=bertolo1988/browser-telephone&amp;utm_campaign=Badge_Grade)
-[![Build Status](https://travis-ci.org/bertolo1988/browser-telephone.svg?branch=master)](https://travis-ci.org/bertolo1988/browser-telephone)
 
 # Browser Telephone
 
