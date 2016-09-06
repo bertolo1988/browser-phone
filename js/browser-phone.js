@@ -136,15 +136,16 @@ BrowsePhoneModule.directive('browserPhoneDirective', ['BloodhoundEngineService',
     return {
         templateUrl: 'view/browser-phone.html',
         link: {
-            post() {
-                $(document).keydown(function(evt) {
+            post(scope, element) {
+                let jqElement = $(element);
+                jqElement.find(document).keydown(function(evt) {
                     if (evt.keyCode === 32 && evt.ctrlKey) {
                         evt.preventDefault();
-                        let button = $('.hangup').attr('disabled') != null ? $('.call') : $('.hangup');
+                        let button = jqElement.find('.hangup').attr('disabled') != null ? jqElement.find('.call') : jqElement.find('.hangup');
                         button.click();
                     }
                 });
-                $('#number').typeahead({
+                jqElement.find('#number').typeahead({
                     hint: true,
                     highlight: true,
                     minLength: 1
