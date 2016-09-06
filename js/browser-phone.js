@@ -138,7 +138,7 @@ BrowsePhoneModule.directive('browserPhoneDirective', ['BloodhoundEngineService',
         link: {
             post(scope, element) {
                 let jqElement = $(element);
-                jqElement.find(document).keydown(function(evt) {
+                $(document).keydown(function(evt) {
                     if (evt.keyCode === 32 && evt.ctrlKey) {
                         evt.preventDefault();
                         let button = jqElement.find('.hangup').attr('disabled') != null ? jqElement.find('.call') : jqElement.find('.hangup');
