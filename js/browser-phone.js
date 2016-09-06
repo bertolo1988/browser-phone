@@ -12,7 +12,7 @@ BrowsePhoneModule.service('BloodhoundEngineService', ['$location', function($loc
                 url: $location.protocol() + '://' + $location.host() + ':' + $location.port() + '/contacts',
                 filter(contacts) {
                     function containsNumberText(value) {
-                        let text = $('#number').val();
+                        let text = $('browser-phone-directive #number').val();
                         return value.toLowerCase().includes(text.toLowerCase());
                     }
                     return contacts.filter(containsNumberText);
@@ -76,36 +76,36 @@ BrowsePhoneModule.controller('BrowsePhoneController', ['$scope', 'BrowserPhoneSe
     }
 
     Twilio.Device.ready(function(device) {
-        $('#log').text('Ready');
-        disableButton('.hangup');
+        $('browser-phone-directive #log').text('Ready');
+        disableButton('browser-phone-directive .hangup');
     });
 
     Twilio.Device.error(function(error) {
-        $('#log').text('Error: ' + error.message);
-        enableButton('.call');
-        disableButton('.hangup');
+        $('browser-phone-directive #log').text('Error: ' + error.message);
+        enableButton('browser-phone-directive .call');
+        disableButton('browser-phone-directive .hangup');
     });
 
     Twilio.Device.connect(function(conn) {
-        $('#log').text('Successfully established call');
-        disableButton('.call');
-        enableButton('.hangup');
+        $('browser-phone-directive #log').text('Successfully established call');
+        disableButton('browser-phone-directive .call');
+        enableButton('browser-phone-directive .hangup');
     });
 
     Twilio.Device.disconnect(function(conn) {
-        $('#log').text('Call ended');
-        enableButton('.call');
-        disableButton('.hangup');
+        $('browser-phone-directive #log').text('Call ended');
+        enableButton('browser-phone-directive .call');
+        disableButton('browser-phone-directive .hangup');
     });
 
     Twilio.Device.incoming(function(conn) {
-        $('#log').text('Incoming connection from ' + conn.parameters.From);
+        $('browser-phone-directive #log').text('Incoming connection from ' + conn.parameters.From);
         conn.accept();
     });
 
     $scope.call = function() {
         params = {
-            'phone': $('#number').val()
+            'phone': $('browser-phone-directive #number').val()
         };
         Twilio.Device.connect(params);
     };
@@ -115,7 +115,7 @@ BrowsePhoneModule.controller('BrowsePhoneController', ['$scope', 'BrowserPhoneSe
     };
 
     $scope.addContact = function() {
-        let inputData = $('#number').val().split(';');
+        let inputData = $('browser-phone-directive #number').val().split(';');
         var number = {};
         if (isValidName(inputData[0])) {
             number.name = inputData[0];
@@ -131,7 +131,6 @@ BrowsePhoneModule.controller('BrowsePhoneController', ['$scope', 'BrowserPhoneSe
     };
 
 }]);
-
 
 BrowsePhoneModule.directive('browserPhoneDirective', ['BloodhoundEngineService', function(BloodhoundEngineService) {
     return {

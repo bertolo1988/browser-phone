@@ -5,8 +5,7 @@ gulp.task('copyDependencies', function() {
     gulp.src([
             'node_modules/angular/angular.min.js',
             'node_modules/jquery/dist/jquery.min.js',
-            'node_modules/bootstrap/dist/js/bootstrap.min.js',
-            'node_modules/bootstrap/dist/css/bootstrap.min.css',
+            'node_modules/bootstrap-grid/dist/grid-min.css',
             'node_modules/font-awesome/css/font-awesome.min.css',
             'node_modules/font-awesome/fonts/fontawesome-webfont.woff',
             'node_modules/font-awesome/fonts/fontawesome-webfont.woff2',
@@ -20,7 +19,9 @@ gulp.task('copySources', function() {
             '*font/**',
             '*js/**',
             '*view/**'
-        ], { base: "." })
+        ], {
+            base: "."
+        })
         .pipe(gulp.dest('public/'));
 });
 

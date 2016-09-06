@@ -16,11 +16,15 @@ function buildTwimlResponse(query, callerId, errorMessage) {
             language: 'en-gb'
         });
     } else if (!isNaN(phone)) {
-        response.dial({ callerId }, (dial) => {
+        response.dial({
+            callerId
+        }, (dial) => {
             dial.number(phone);
         });
     } else if (isNaN(phone)) {
-        response.dial({ callerId }, (dial) => {
+        response.dial({
+            callerId
+        }, (dial) => {
             dial.client(phone);
         });
     }
@@ -28,14 +32,18 @@ function buildTwimlResponse(query, callerId, errorMessage) {
 }
 
 function launchServer(config, err, database) {
-    app.use(bodyParser.urlencoded({ extended: false }));
+    app.use(bodyParser.urlencoded({
+        extended: false
+    }));
     app.use(bodyParser.json());
 
     app.get('/token', function(req, res) {
         var capability = new twilio.Capability(config.TWILIO_ACCOUNT_SID, config.TWILIO_AUTH_TOKEN);
         capability.allowClientOutgoing(config.MY_APP_SID);
         capability.allowClientIncoming(config.CLIENT_NAME);
-        res.json({ token: capability.generate() });
+        res.json({
+            token: capability.generate()
+        });
     });
 
     app.get('/voice', function(req, res) {
@@ -48,10 +56,14 @@ function launchServer(config, err, database) {
     app.use('/', express.static('public'));
 
     //this route exists just because font-awesome needs the fonts folder by default
-    //app.use('/fonts', express.static('public/dependencies'));
+    app.use('/fonts', express.static('public/dependencies'));
 
     app.get('/contacts', function(req, res) {
-        database.collection('contacts').find({}, { name: 1, number: 1, _id: 0 }).toArray(function(err, doc) {
+        database.collection('contacts').find({}, {
+            name: 1,
+            number: 1,
+            _id: 0
+        }).toArray(function(err, doc) {
             should.not.exist(err, 'Error: there was a problem while trying to retrieve contacts!');
             let results = [];
             for (let obj of doc) {
@@ -75,7 +87,6 @@ function launchServer(config, err, database) {
     console.log('  Server running at http://localhost:' + config.PORT + '/');
 }
 
-
 function close() {
     httpServer.close();
     console.log('  bye');
@@ -88,7 +99,6 @@ function run(args) {
         launchServer(config, err, database);
     });
 }
-
 
 module.exports.close = close;
 module.exports.run = run;
