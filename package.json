@@ -15,6 +15,7 @@
     },
     "repository": {
         "type": "git",
+        "url": "git+https://github.com/bertolo1988/browser-phone.git"
     },
     "keywords": [
         "browser",
@@ -24,7 +25,9 @@
     ],
     "author": "bertolo1988 <tiagobertolo@gmail.com> (https://github.com/bertolo1988)",
     "bugs": {
+        "url": "https://github.com/bertolo1988/browser-phone/issues"
     },
+    "homepage": "https://github.com/bertolo1988/browser-phone#readme",
     "dependencies": {
         "angular": "1.5.8",
         "body-parser": "1.15.2",
