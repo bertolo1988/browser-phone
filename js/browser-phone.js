@@ -12,7 +12,7 @@ BrowsePhoneModule.service('BloodhoundEngineService', ['$location', function($loc
                 url: $location.protocol() + '://' + $location.host() + ':' + $location.port() + '/contacts',
                 filter(contacts) {
                     function containsNumberText(value) {
-                        let text = $('browser-phone-directive #number').val();
+                        let text = $('browser-phone #number').val();
                         return value.toLowerCase().includes(text.toLowerCase());
                     }
                     return contacts.filter(containsNumberText);
@@ -47,14 +47,7 @@ BrowsePhoneModule.service('BrowserPhoneService', ['$http', '$location', function
 
 }]);
 
-BrowsePhoneModule.controller('BrowsePhoneController', ['$scope', 'BrowserPhoneService', 'BloodhoundEngineService', function($scope, BrowserPhoneService, BloodhoundEngineService) {
-
-    BrowserPhoneService.getCapabilityToken().then(function(resp) {
-        Twilio.Device.setup(resp.data.token, {
-            debug: true
-        });
-    });
-
+BrowsePhoneModule.controller('BrowserPhoneController', ['$scope', 'BrowserPhoneService', 'BloodhoundEngineService', function($scope, BrowserPhoneService, BloodhoundEngineService) {
     function isValidName(val) {
         ///validates for a-z and A-Z and white space
         return /^[A-z ]+$/.test(val);
@@ -64,58 +57,7 @@ BrowsePhoneModule.controller('BrowsePhoneController', ['$scope', 'BrowserPhoneSe
         //validates only numbers that are 12 digits long
         return /^\d+$/.test(val) && val.length === 12;
     }
-
-    function disableButton(selector) {
-        $(selector).addClass('disabled');
-        $(selector).prop('disabled', true);
-    }
-
-    function enableButton(selector) {
-        $(selector).removeClass('disabled');
-        $(selector).prop('disabled', false);
-    }
-
-    Twilio.Device.ready(function(device) {
-        $('browser-phone-directive #log').text('Ready');
-        disableButton('browser-phone-directive .hangup');
-    });
-
-    Twilio.Device.error(function(error) {
-        $('browser-phone-directive #log').text('Error: ' + error.message);
-        enableButton('browser-phone-directive .call');
-        disableButton('browser-phone-directive .hangup');
-    });
-
-    Twilio.Device.connect(function(conn) {
-        $('browser-phone-directive #log').text('Successfully established call');
-        disableButton('browser-phone-directive .call');
-        enableButton('browser-phone-directive .hangup');
-    });
-
-    Twilio.Device.disconnect(function(conn) {
-        $('browser-phone-directive #log').text('Call ended');
-        enableButton('browser-phone-directive .call');
-        disableButton('browser-phone-directive .hangup');
-    });
-
-    Twilio.Device.incoming(function(conn) {
-        $('browser-phone-directive #log').text('Incoming connection from ' + conn.parameters.From);
-        conn.accept();
-    });
-
-    $scope.call = function() {
-        params = {
-            'phone': $('browser-phone-directive #number').val()
-        };
-        Twilio.Device.connect(params);
-    };
-
-    $scope.hangup = function() {
-        Twilio.Device.disconnectAll();
-    };
-
-    $scope.addContact = function() {
-        let inputData = $('browser-phone-directive #number').val().split(';');
+    $scope.saveContact = function(inputData) {
         var number = {};
         if (isValidName(inputData[0])) {
             number.name = inputData[0];
@@ -129,15 +71,16 @@ BrowsePhoneModule.controller('BrowsePhoneController', ['$scope', 'BrowserPhoneSe
             }
         });
     };
-
 }]);
 
-BrowsePhoneModule.directive('browserPhone', ['BloodhoundEngineService', function(BloodhoundEngineService) {
+BrowsePhoneModule.directive('browserPhone', ['BrowserPhoneService', 'BloodhoundEngineService', function(BrowserPhoneService, BloodhoundEngineService) {
     return {
         templateUrl: 'view/browser-phone.html',
-        link: {
-            post(scope, element) {
-                let jqElement = $(element);
+        controller: 'BrowserPhoneController',
+        link: function(scope, element, attr, ctrl) {
+            let jqElement = $(element);
+
+            function setupShortcutKeys() {
                 $(document).keydown(function(evt) {
                     if (evt.keyCode === 32 && evt.ctrlKey) {
                         evt.preventDefault();
@@ -145,6 +88,9 @@ BrowsePhoneModule.directive('browserPhone', ['BloodhoundEngineService', function
                         button.click();
                     }
                 });
+            }
+
+            function setupTypeahead() {
                 jqElement.find('#number').typeahead({
                     hint: true,
                     highlight: true,
@@ -155,6 +101,73 @@ BrowsePhoneModule.directive('browserPhone', ['BloodhoundEngineService', function
                     source: BloodhoundEngineService.initialize()
                 });
             }
+
+            function setupTwilio() {
+
+                BrowserPhoneService.getCapabilityToken().then(function(resp) {
+                    Twilio.Device.setup(resp.data.token, {
+                        debug: true
+                    });
+                });
+
+                function disableButton(selector) {
+                    jqElement.find(selector).addClass('disabled');
+                    jqElement.find(selector).prop('disabled', true);
+                }
+
+                function enableButton(selector) {
+                    jqElement.find(selector).removeClass('disabled');
+                    jqElement.find(selector).prop('disabled', false);
+                }
+
+                Twilio.Device.ready(function(device) {
+                    jqElement.find('#log').text('Ready');
+                    disableButton('.hangup');
+                });
+
+                Twilio.Device.error(function(error) {
+                    jqElement.find('#log').text('Error: ' + error.message);
+                    enableButton('.call');
+                    disableButton('.hangup');
+                });
+
+                Twilio.Device.connect(function(conn) {
+                    jqElement.find('#log').text('Successfully established call');
+                    disableButton('.call');
+                    enableButton('.hangup');
+                });
+
+                Twilio.Device.disconnect(function(conn) {
+                    jqElement.find('#log').text('Call ended');
+                    enableButton('.call');
+                    disableButton('.hangup');
+                });
+
+                Twilio.Device.incoming(function(conn) {
+                    jqElement.find('#log').text('Incoming connection from ' + conn.parameters.From);
+                    conn.accept();
+                });
+
+            }
+
+            setupTypeahead();
+            setupShortcutKeys();
+            setupTwilio();
+
+            scope.call = function() {
+                params = {
+                    'phone': jqElement.find('#number').val()
+                };
+                Twilio.Device.connect(params);
+            };
+
+            scope.hangup = function() {
+                Twilio.Device.disconnectAll();
+            };
+
+            scope.addContact = function() {
+                scope.saveContact(jqElement.find('#number').val().split(';'));
+            };
         }
     };
 }]);

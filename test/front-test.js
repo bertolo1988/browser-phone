@@ -108,7 +108,9 @@ test.describe('Front end tests', function() {
             driver.wait(Until.elementLocated(By.css('.tt-dataset-contacts > .tt-suggestion')), config.TIMEOUT, 'Could not see the suggestion');
             driver.findElement(By.css(firstSuggestionSelector)).getText().then(function(text) {
                 text.should.be.equal(name.charAt(0));
-                database.collection('contacts').remove({ name }, function(err, doc) {
+                database.collection('contacts').remove({
+                    name
+                }, function(err, doc) {
                     should.not.exist(err);
                     doc.result.ok.should.be.exactly(1);
                     done();
