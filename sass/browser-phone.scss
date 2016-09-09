@@ -36,10 +36,6 @@ browser-phone .browser-phone-container {
     span.log-container {
         margin-bottom: $bp-standard-margin;
     }
-    span.twitter-typeahead input {
-        border-top-right-radius: 0px !important;
-        border-bottom-right-radius: 0px !important;
-    }
     .btn-success {
         margin-bottom: $bp-standard-margin;
     }
@@ -52,8 +48,6 @@ browser-phone .browser-phone-container {
         width: 100%;
         margin-left: 0px;
         margin-right: $bp-standard-margin;
-        border-bottom-left-radius: 0px !important;
-        border-top-left-radius: 0px !important;
         margin-top: 0px;
         padding: 6px;
     }

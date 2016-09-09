@@ -79,6 +79,7 @@ BrowsePhoneModule.directive('browserPhone', ['BrowserPhoneService', 'BloodhoundE
         controller: 'BrowserPhoneController',
         link: function(scope, element, attr, ctrl) {
             let jqElement = $(element);
+            scope.isAddContactMode = false;
 
             function setupShortcutKeys() {
                 $(document).keydown(function(evt) {
@@ -163,6 +164,10 @@ BrowsePhoneModule.directive('browserPhone', ['BrowserPhoneService', 'BloodhoundE
 
             scope.hangup = function() {
                 Twilio.Device.disconnectAll();
+            };
+
+            scope.showAddContactForm = function() {
+                scope.isAddContactMode = true;
             };
 
             scope.addContact = function() {
