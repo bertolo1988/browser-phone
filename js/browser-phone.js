@@ -132,7 +132,7 @@ BrowsePhoneModule.controller('BrowsePhoneController', ['$scope', 'BrowserPhoneSe
 
 }]);
 
-BrowsePhoneModule.directive('browserPhoneDirective', ['BloodhoundEngineService', function(BloodhoundEngineService) {
+BrowsePhoneModule.directive('browserPhone', ['BloodhoundEngineService', function(BloodhoundEngineService) {
     return {
         templateUrl: 'view/browser-phone.html',
         link: {
