@@ -22,6 +22,10 @@ BrowsePhoneModule.service('BloodhoundEngineService', ['$location', function($loc
         return bloodhoundEngine;
     };
 
+    this.addPrediction = function(contact) {
+        bloodhoundEngine.add(concatContactData(contact));
+    };
+
     this.get = function() {
         return bloodhoundEngine;
     };
@@ -48,6 +52,7 @@ BrowsePhoneModule.service('BrowserPhoneService', ['$http', '$location', function
 }]);
 
 BrowsePhoneModule.controller('BrowserPhoneController', ['$scope', 'BrowserPhoneService', 'BloodhoundEngineService', function($scope, BrowserPhoneService, BloodhoundEngineService) {
+
     function isValidName(val) {
         ///validates for a-z and A-Z and white space
         return /^[A-z ]+$/.test(val);
@@ -57,20 +62,38 @@ BrowsePhoneModule.controller('BrowserPhoneController', ['$scope', 'BrowserPhoneS
         //validates only numbers that are 12 digits long
         return /^\d+$/.test(val) && val.length === 12;
     }
-    $scope.saveContact = function(inputData) {
-        var number = {};
-        if (isValidName(inputData[0])) {
-            number.name = inputData[0];
+
+    function isValidContact(contact) {
+        return contact != null && isValidName(contact.name) && (isValidPhone(contact.number) || contact.number.length == 0);
+    }
+
+    $scope.saveContact = function(contact) {
+        if (isValidContact(contact)) {
+            BrowserPhoneService.addContact(contact).then(function(resp) {
+                if (resp.data === 'Contact added!') {
+                    BloodhoundEngineService.addPrediction(contact);
+                    $scope.hideAddContactForm();
+                    $scope.clearAddContactForm();
+                    window.alert('Contact added!');
+                }
+            }, function(error) {
+                window.alert('Some error ocurred!');
+            });
+        } else {
+            window.alert('Contact format was not valid!');
         }
-        if (inputData.length > 1 && isValidPhone(inputData[1])) {
-            number.phone = inputData[1];
-        }
-        BrowserPhoneService.addContact(number).then(function(resp) {
-            if (resp.data === 'Contact added!') {
-                BloodhoundEngineService.get().add([number.name]);
-            }
-        });
     };
+
+    $scope.hideAddContactForm = function() {
+        $scope.isAddContactMode = false;
+    };
+
+    $scope.showAddContactForm = function() {
+        $scope.isAddContactMode = true;
+    };
+
+    $scope.hideAddContactForm();
+
 }]);
 
 BrowsePhoneModule.directive('browserPhone', ['BrowserPhoneService', 'BloodhoundEngineService', function(BrowserPhoneService, BloodhoundEngineService) {
@@ -79,7 +102,6 @@ BrowsePhoneModule.directive('browserPhone', ['BrowserPhoneService', 'BloodhoundE
         controller: 'BrowserPhoneController',
         link: function(scope, element, attr, ctrl) {
             let jqElement = $(element);
-            scope.isAddContactMode = false;
 
             function setupShortcutKeys() {
                 $(document).keydown(function(evt) {
@@ -133,7 +155,8 @@ BrowsePhoneModule.directive('browserPhone', ['BrowserPhoneService', 'BloodhoundE
                 });
 
                 Twilio.Device.connect(function(conn) {
-                    jqElement.find('#log').text('Successfully established call');
+                    let dialled = scope.getCallableNumber(jqElement.find('#number').val());
+                    jqElement.find('#log').text('Successfully established call with ' + dialled);
                     disableButton('.call');
                     enableButton('.hangup');
                 });
@@ -155,9 +178,25 @@ BrowsePhoneModule.directive('browserPhone', ['BrowserPhoneService', 'BloodhoundE
             setupShortcutKeys();
             setupTwilio();
 
+            scope.getCallableNumber = function(contactString) {
+                let result = contactString;
+                if (contactString.indexOf(',') > -1) {
+                    let data = contactString.split(',');
+                    if (data[1].length > 0) {
+                        result = data[1];
+                    } else if (data[2].length > 0) {
+                        result = data[2];
+                    }
+                }
+                console.log(result);
+                return result;
+            };
+
             scope.call = function() {
+                let numberValue = jqElement.find('#number').val();
+                let callable = scope.getCallableNumber(numberValue);
                 params = {
-                    'phone': jqElement.find('#number').val()
+                    'phone': callable
                 };
                 Twilio.Device.connect(params);
             };
@@ -170,8 +209,12 @@ BrowsePhoneModule.directive('browserPhone', ['BrowserPhoneService', 'BloodhoundE
                 scope.isAddContactMode = true;
             };
 
-            scope.addContact = function() {
-                scope.saveContact(jqElement.find('#number').val().split(';'));
+            scope.clearAddContactForm = function() {
+                jqElement.find('#add-contact-form')[0].reset();
+            };
+
+            scope.addContact = function(contact) {
+                scope.saveContact(contact);
             };
         }
     };

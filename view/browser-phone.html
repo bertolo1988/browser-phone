@@ -17,12 +17,13 @@
                     <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
                 </button>
             </div>
-            <div class="browser-phone-add-contact-form-div" ng-show="isAddContactMode">
-                <form class="add-contact-form">
-                    <input type="text" ng-model="contact.id" />
-                    <input type="text" ng-model="contact.name" />
-                    <input type="tel" ng-model="contact.number" />
-                    <input type="submit" ng-click="addContact(contact)" value="Save" />
+            <div class="browser-phone-add-contact-form-div form-group" ng-show="isAddContactMode">
+                <form id="add-contact-form" class="add-contact-form">
+                    <input id="name" type="text" class="form-control" ng-model="contact.name" placeholder="Name" />
+                    <input id="twilioid" type="text" class="form-control" ng-model="contact.twilioId" placeholder="TwilioID" />
+                    <input id="number" type="tel" class="form-control" ng-model="contact.number" placeholder="Number" />
+                    <input id="return" type="submit" class="btn" ng-click="hideAddContactForm()" value="Return" />
+                    <input id="save" type="submit" class="btn" ng-click="addContact(contact)" value="Save" />
                 </form>
             </div>
         </div>

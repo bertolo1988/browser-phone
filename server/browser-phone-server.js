@@ -61,17 +61,16 @@ function launchServer(config, err, database) {
     app.get('/contacts', function(req, res) {
         database.collection('contacts').find({}, {
             name: 1,
+            twilioId: 1,
             number: 1,
             _id: 0
         }).toArray(function(err, doc) {
             should.not.exist(err, 'Error: there was a problem while trying to retrieve contacts!');
-            let results = [];
-            for (let obj of doc) {
-                if (obj.name != null) {
-                    results.push(obj.name);
-                }
+            let result = [];
+            for (let entry of doc) {
+                result.push(entry.name + ', ' + entry.twilioId + ', ' + entry.number);
             }
-            res.json(results);
+            res.json(result);
         });
     });
 
@@ -84,7 +83,7 @@ function launchServer(config, err, database) {
     });
 
     httpServer = app.listen(config.PORT);
-    console.log('  Server running at http://localhost:' + config.PORT + '/');
+    console.log('Server running at http://localhost:' + config.PORT + '/');
 }
 
 function close() {
