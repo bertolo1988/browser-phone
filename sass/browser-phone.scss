@@ -43,6 +43,9 @@ browser-phone .browser-phone-container {
     .browser-phone-contact-div,
     .browser-phone-add-contact-div {
         padding: 0px;
+        form#add-contact-form input {
+            margin-bottom: 4px;
+        }
     }
     .browser-phone-add-contact-button {
         width: 100%;
