@@ -51,11 +51,9 @@ Demo page will be at `localhost:config.PORT/demo.html`
 
 * Add contacts
 
-While adding contacts you can define both fields like this: `name;number`.
+Click on the "+" button.
 
-The number must be 12 digits long and the name must be only characters.
-
-This was done like this due to the fact that this phone can call normal phone numbers or names.
+Name and tiwlioId characters must be a-z,A-Z. The number must be 12 digits long and the name must be only characters.
 
 * Shortcuts
 
