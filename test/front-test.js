@@ -136,6 +136,14 @@ test.describe('Front end tests', function() {
                 removeContact(user.name, done);
             });
         });
+
+        test.it('should to use return button from add contact form', function(done) {
+            driver.findElement(By.css('.browser-phone-add-contact-button')).click();
+            driver.findElement(By.id('addContactReturnButton')).click();
+            driver.wait(Until.elementLocated(By.css('input#number')), config.TIMEOUT, 'Could not see number input!');
+            done();
+        });
+
     });
 
     test.describe('Test call', function() {
