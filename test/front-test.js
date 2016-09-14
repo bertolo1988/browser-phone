@@ -111,7 +111,7 @@ test.describe('Front end tests', function() {
 
         function removeContact(name, done) {
             database.collection('contacts').remove({
-                name: name
+                name
             }, function(err, doc) {
                 should.not.exist(err);
                 doc.result.ok.should.be.exactly(1);
