@@ -19,11 +19,11 @@
             </div>
             <div class="browser-phone-add-contact-form-div form-group" ng-show="isAddContactMode">
                 <form id="add-contact-form" class="add-contact-form">
-                    <input id="name" type="text" class="form-control" ng-model="contact.name" placeholder="Name" />
-                    <input id="twilioid" type="text" class="form-control" ng-model="contact.twilioId" placeholder="TwilioID" />
-                    <input id="number" type="tel" class="form-control" ng-model="contact.number" placeholder="Number" />
-                    <input id="return" type="submit" class="btn" ng-click="hideAddContactForm()" value="Return" />
-                    <input id="save" type="submit" class="btn" ng-click="addContact(contact)" value="Save" />
+                    <input id="addContactNameInput" type="text" class="form-control" ng-model="contact.name" placeholder="Name" />
+                    <input id="addContactTwilioIdInput" type="text" class="form-control" ng-model="contact.twilioId" placeholder="TwilioID" />
+                    <input id="addContactNumberInput" type="tel" class="form-control" ng-model="contact.number" placeholder="Number" />
+                    <input id="addContactReturnButton" type="submit" class="btn" ng-click="hideAddContactForm()" value="Return" />
+                    <input id="addContactSaveButton" type="submit" class="btn" ng-click="addContact(contact)" value="Save" />
                 </form>
             </div>
         </div>

@@ -23,7 +23,7 @@ BrowsePhoneModule.service('BloodhoundEngineService', ['$location', function($loc
     };
 
     this.addPrediction = function(contact) {
-        bloodhoundEngine.add(concatContactData(contact));
+        bloodhoundEngine.add(contact.name + ', ' + contact.twilioId + ', ' + contact.number);
     };
 
     this.get = function() {
