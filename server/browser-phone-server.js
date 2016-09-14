@@ -83,7 +83,7 @@ function launchServer(config, err, database) {
     });
 
     httpServer = app.listen(config.PORT);
-    console.log('Server running at http://localhost:' + config.PORT + '/');
+    console.log('  Server running at http://localhost:' + config.PORT + '/');
 }
 
 function close() {

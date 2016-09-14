@@ -77,7 +77,7 @@ BrowsePhoneModule.controller('BrowserPhoneController', ['$scope', 'BrowserPhoneS
                     window.alert('Contact added!');
                 }
             }, function(error) {
-                window.alert('Some error ocurred!');
+                window.alert('Some error ocurred: ' + error);
             });
         } else {
             window.alert('Contact format was not valid!');
@@ -100,7 +100,7 @@ BrowsePhoneModule.directive('browserPhone', ['BrowserPhoneService', 'BloodhoundE
     return {
         templateUrl: 'view/browser-phone.html',
         controller: 'BrowserPhoneController',
-        link: function(scope, element, attr, ctrl) {
+        link: function(scope, element) {
             let jqElement = $(element);
 
             function setupShortcutKeys() {
@@ -143,7 +143,7 @@ BrowsePhoneModule.directive('browserPhone', ['BrowserPhoneService', 'BloodhoundE
                     jqElement.find(selector).prop('disabled', false);
                 }
 
-                Twilio.Device.ready(function(device) {
+                Twilio.Device.ready(function() {
                     jqElement.find('#log').text('Ready');
                     disableButton('.hangup');
                 });
@@ -154,14 +154,14 @@ BrowsePhoneModule.directive('browserPhone', ['BrowserPhoneService', 'BloodhoundE
                     disableButton('.hangup');
                 });
 
-                Twilio.Device.connect(function(conn) {
+                Twilio.Device.connect(function() {
                     let dialled = scope.getCallableNumber(jqElement.find('#number').val());
                     jqElement.find('#log').text('Successfully established call with ' + dialled);
                     disableButton('.call');
                     enableButton('.hangup');
                 });
 
-                Twilio.Device.disconnect(function(conn) {
+                Twilio.Device.disconnect(function() {
                     jqElement.find('#log').text('Call ended');
                     enableButton('.call');
                     disableButton('.hangup');
