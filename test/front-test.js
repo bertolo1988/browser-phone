@@ -11,25 +11,6 @@ var driver;
 
 test.describe('Front end tests', function() {
 
-    function loadDemoPage() {
-        driver.get('localhost:' + config.PORT + '/demo.html');
-        let logElement = driver.findElement(By.id(ID.log));
-        driver.wait(Until.elementTextIs(logElement, 'Ready'), config.TIMEOUT, 'Could not locate "Ready"');
-    }
-
-    this.timeout(config.TIMEOUT);
-    test.before(() => {
-        chromedriver.start();
-        driver = new Webdriver.Builder().withCapabilities(Webdriver.Capabilities.chrome()).build();
-        BrowserPhoneServer.run(config);
-    });
-    test.after(() => {
-        driver.quit();
-        chromedriver.stop();
-        BrowserPhoneServer.close();
-    });
-    test.beforeEach(loadDemoPage);
-
     const ID = {
         number: 'number',
         log: 'log',
@@ -51,6 +32,25 @@ test.describe('Front end tests', function() {
         'micSlash': 'i.fa-microphone-slash',
         firstSuggestion: '.tt-dataset-contacts > .tt-suggestion > .tt-highlight'
     };
+
+    function loadDemoPage() {
+        driver.get('localhost:' + config.PORT + '/demo.html');
+        let logElement = driver.findElement(By.id(ID.log));
+        driver.wait(Until.elementTextIs(logElement, 'Ready'), config.TIMEOUT, 'Could not locate "Ready"');
+    }
+
+    this.timeout(config.TIMEOUT);
+    test.before(() => {
+        chromedriver.start();
+        driver = new Webdriver.Builder().withCapabilities(Webdriver.Capabilities.chrome()).build();
+        BrowserPhoneServer.run(config);
+    });
+    test.after(() => {
+        driver.quit();
+        chromedriver.stop();
+        BrowserPhoneServer.close();
+    });
+    test.beforeEach(loadDemoPage);
 
     test.describe('Static phone-browser tests', function() {
 

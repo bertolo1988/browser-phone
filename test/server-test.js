@@ -113,7 +113,7 @@ describe('Server tests', function() {
             request
                 .post('/addContact')
                 .send(contact)
-                .end(function(err, res) {
+                .end(function(err) {
                     should.not.exist(err);
                     checkForContact(contact, done);
                 });
